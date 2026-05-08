@@ -54,4 +54,13 @@ Create an `Achievement` entity with the following fields:
 - Write the Thymeleaf templates with some basic CSS styling so the interface is clean, readable, and functional.
 - Please place the classes in a standard Spring Boot package structure (e.g., `com.example.achievement.controller`, `.service`, `.model`, etc.).
 
-We run the output as the next prompt. At this point, we've spent about 10 mins to set all this up. From creating our git repo to writing the prompt out.
+We run the output as the next prompt. At this point, we've spent about 10 mins to set all this up. From creating our git repo to writing the prompt out. Took about 7mins to generate the whole project.
+
+Issue #1: Tells me to run ./gradlew bootrun but it doesn't have gradlew.
+Issue #2: Wrong compile version. The gradle provided by antigravity cannot support Java 21. Had to go Spring INitializr to get the correct one.
+- Still not working, attempt to fix this via AI
+- The fix was to install JDK 21 globally
+- Still not working
+- Asked Gemini, found the fix as to set Build Tool -> Gradle to JDK 21
+
+We see the output now. It's pretty basic but has enough functionality. Now, we want to integrate it with our Template Microservice and to do that we need to figure out how we can get Gemini to read it.
