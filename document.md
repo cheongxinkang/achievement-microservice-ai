@@ -77,3 +77,10 @@ I am trying to give AI simple changes to make. Instead of having too many change
 
 So far, with 30 mins, I've managed to increase the functionality of the achievement.
 But each feature needs to be coaxed out. So it does take time to create the fully functioning app.
+
+Now, I'm improving how it looks. Matching it to template service.
+
+Future features to implement.
+- Proper saving so it doesn't wipe out the database every time
+- Integrate user service and authentication
+- Cloud hosting with API gateway

@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<div class="container container-small">
-    <h1>Edit Achievement</h1>
+<div class="app-container app-container-small">
+    <h2>Edit Achievement</h2>
     
     <form th:action="@{/update/{id}(id=${achievement.id})}" th:object="${achievement}" method="post">
         <div class="form-group">

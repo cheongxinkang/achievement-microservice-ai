@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<div class="container container-small">
-    <h1 th:text="'Create: ' + ${template.templateName}">Create Achievement</h1>
+<div class="app-container app-container-small">
+    <h2 th:text="'Create: ' + ${template.templateName}">Create Achievement</h2>
     <p>Fill out the fields defined by this template.</p>
     
     <form th:action="@{/save}" method="post">
