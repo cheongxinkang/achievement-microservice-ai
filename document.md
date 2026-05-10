@@ -64,3 +64,5 @@ Issue #2: Wrong compile version. The gradle provided by antigravity cannot suppo
 - Asked Gemini, found the fix as to set Build Tool -> Gradle to JDK 21
 
 We see the output now. It's pretty basic but has enough functionality. Now, we want to integrate it with our Template Microservice and to do that we need to figure out how we can get Gemini to read it.
+- This was pretty straightforward, I can just pass it my local path.
+- I reviewed the plan and I didn't really want it to make changes to the template service but these are necessary for communication.

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select a Template</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; padding: 10px 15px; margin-bottom: 20px; color: white; background-color: #3498db; text-decoration: none; border-radius: 4px; }
+        .btn:hover { background-color: #2980b9; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+        .action-link { display: inline-block; padding: 5px 10px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 3px; font-size: 14px; }
+        .action-link:hover { background-color: #27ae60; }
+        .back-link { display: inline-block; margin-top: 15px; color: #3498db; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Available Templates</h1>
+    <p>Select a template to create a new achievement.</p>
+    
+    <!-- Link to the template service to create a new template -->
+    <a href="http://localhost:8081" class="btn" target="_blank">Create New Template in Template Service</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="template : ${templates}">
+            <td th:text="${template.templateName}">Template Name</td>
+            <td th:text="${template.type}">Type</td>
+            <td>
+                <a th:href="@{/create(templateId=${template.id})}" class="action-link">Use Template</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(templates)}">
+            <td colspan="3" style="text-align: center;">No templates found. Create one in the Template Service!</td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <a th:href="@{/}" class="back-link">&larr; Back to List</a>
+</div>
+</body>
+</html>
