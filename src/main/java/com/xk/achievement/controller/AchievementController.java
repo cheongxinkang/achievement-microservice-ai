@@ -1,14 +1,19 @@
 package com.xk.achievement.controller;
 
+import com.xk.achievement.dto.AchievementDTO;
 import com.xk.achievement.dto.TemplateDTO;
 import com.xk.achievement.model.Achievement;
 import com.xk.achievement.service.AchievementService;
 import com.xk.achievement.service.TemplateServiceClient;
+import com.xk.achievement.util.AchievementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,7 +34,10 @@ public class AchievementController {
 
     @GetMapping
     public String listAchievements(Model model) {
-        model.addAttribute("achievements", service.findAll());
+        List<AchievementDTO> dtos = service.findAll().stream()
+                .map(AchievementMapper::toDTO)
+                .collect(Collectors.toList());
+        model.addAttribute("achievements", dtos);
         return "list";
     }
 
@@ -57,14 +65,45 @@ public class AchievementController {
         Achievement achievement = new Achievement();
         
         String templateName = formData.getOrDefault("_templateName", "Generated Achievement");
+        String actualName = null;
         
-        String description = formData.entrySet().stream()
-                .filter(entry -> !entry.getKey().startsWith("_"))
-                .map(entry -> entry.getKey() + ": " + entry.getValue())
-                .collect(Collectors.joining("\n"));
-                
-        achievement.setName(templateName);
-        achievement.setDescription(description);
+        List<String> criteria = new ArrayList<>();
+        LocalDate deadline = null;
+        StringBuilder descBuilder = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : formData.entrySet()) {
+            if (entry.getKey().startsWith("_")) continue;
+
+            String keyLower = entry.getKey().toLowerCase();
+            if (keyLower.contains("name") && actualName == null) {
+                actualName = entry.getValue();
+            } else if (keyLower.contains("deadline") || keyLower.contains("date")) {
+                try {
+                    // Typical format from datetime-local is 2026-05-10T10:00
+                    if (entry.getValue().contains("T")) {
+                        deadline = LocalDate.parse(entry.getValue().split("T")[0]);
+                    } else {
+                        deadline = LocalDate.parse(entry.getValue());
+                    }
+                } catch (Exception e) {
+                    descBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+                }
+            } else if (keyLower.contains("criteria")) {
+                String[] parts = entry.getValue().split("[,\\n]+");
+                for (String p : parts) {
+                    if (!p.trim().isEmpty()) {
+                        criteria.add(p.trim());
+                    }
+                }
+            } else {
+                descBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+        }
+        
+        achievement.setAchievementName(actualName != null && !actualName.trim().isEmpty() ? actualName : templateName);
+        achievement.setDescription(descBuilder.toString().trim());
+        achievement.setListOfCriteria(criteria);
+        achievement.setDeadline(deadline);
         
         service.save(achievement);
         return "redirect:/";
@@ -72,21 +111,39 @@ public class AchievementController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Optional<Achievement> achievement = service.findById(id);
-        if (achievement.isPresent()) {
-            model.addAttribute("achievement", achievement.get());
+        Optional<Achievement> achievementOpt = service.findById(id);
+        if (achievementOpt.isPresent()) {
+            Achievement a = achievementOpt.get();
+            AchievementDTO dto = AchievementMapper.toDTO(a);
+            
+            // Convert list to comma-separated string for editing
+            model.addAttribute("achievement", dto);
+            model.addAttribute("criteriaString", String.join(", ", a.getListOfCriteria()));
             return "edit";
         }
         return "redirect:/";
     }
 
     @PostMapping("/update/{id}")
-    public String updateAchievement(@PathVariable Long id, @ModelAttribute Achievement achievementDetails) {
+    public String updateAchievement(@PathVariable Long id, @ModelAttribute AchievementDTO achievementDetails, @RequestParam(value = "criteriaString", required = false) String criteriaString) {
         Optional<Achievement> optional = service.findById(id);
         if (optional.isPresent()) {
             Achievement achievement = optional.get();
-            achievement.setName(achievementDetails.getName());
+            achievement.setAchievementName(achievementDetails.getAchievementName());
             achievement.setDescription(achievementDetails.getDescription());
+            achievement.setDeadline(achievementDetails.getDeadline());
+            
+            List<String> updatedCriteria = new ArrayList<>();
+            if (criteriaString != null && !criteriaString.trim().isEmpty()) {
+                String[] parts = criteriaString.split("[,\\n]+");
+                for (String p : parts) {
+                    if (!p.trim().isEmpty()) {
+                        updatedCriteria.add(p.trim());
+                    }
+                }
+            }
+            achievement.setListOfCriteria(updatedCriteria);
+            
             service.save(achievement);
         }
         return "redirect:/";

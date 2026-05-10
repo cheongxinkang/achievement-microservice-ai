@@ -66,3 +66,14 @@ Issue #2: Wrong compile version. The gradle provided by antigravity cannot suppo
 We see the output now. It's pretty basic but has enough functionality. Now, we want to integrate it with our Template Microservice and to do that we need to figure out how we can get Gemini to read it.
 - This was pretty straightforward, I can just pass it my local path.
 - I reviewed the plan and I didn't really want it to make changes to the template service but these are necessary for communication.
+
+The current version has integrated with Template Microservice. But it is not a SPA. Creating a new template opens it into a new page. Let's try to fix that.
+
+After that, we want to update how the achievement description is presented.
+
+So far, it's really working out quite well with AI. I would say some decisions made such as having in html css is questionable. But once you correct it, it seems not to be too big of an issue. And I'm able to create my website with AI really quickly. But it is just creating what it wants. Not what I want. Although I'm not 100% sure what I want too but this is also the tricky thing about SWE.
+
+I am trying to give AI simple changes to make. Instead of having too many changes at once.
+
+So far, with 30 mins, I've managed to increase the functionality of the achievement.
+But each feature needs to be coaxed out. So it does take time to create the fully functioning app.

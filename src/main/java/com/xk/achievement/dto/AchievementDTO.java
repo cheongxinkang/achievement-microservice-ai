@@ -1,41 +1,16 @@
-package com.xk.achievement.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ElementCollection;
+package com.xk.achievement.dto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Achievement {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AchievementDTO {
     private Long id;
-
     private String achievementName;
-
     private String description;
-
-    @ElementCollection
     private List<String> listOfCriteria = new ArrayList<>();
-
     private LocalDate deadline;
-
-    private boolean completed = false;
-
-    public Achievement() {
-    }
-
-    public Achievement(String achievementName, String description) {
-        this.achievementName = achievementName;
-        this.description = description;
-        this.completed = false;
-    }
+    private boolean completed;
 
     // Getters and Setters
 

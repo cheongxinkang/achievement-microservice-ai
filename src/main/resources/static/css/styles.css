@@ -1,0 +1,53 @@
+/* Base Styles */
+body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; color: #333; }
+h1 { color: #2c3e50; }
+
+/* Container */
+.container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.container.container-small { max-width: 600px; }
+
+/* Buttons */
+.btn, button { display: inline-block; padding: 10px 15px; margin-bottom: 20px; color: white; background-color: #3498db; border: none; text-decoration: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+.btn:hover, button:hover { background-color: #2980b9; }
+
+button[type="submit"] { margin-bottom: 0; }
+.btn-success { background-color: #2ecc71 !important; }
+.btn-success:hover { background-color: #27ae60 !important; }
+.btn-warning { background-color: #f39c12 !important; }
+.btn-warning:hover { background-color: #e67e22 !important; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background-color: #f2f2f2; }
+
+/* Status */
+.completed { color: #27ae60; font-weight: bold; }
+.not-completed { color: #e74c3c; }
+
+/* Action Links & Small Buttons */
+.action-link { display: inline-block; padding: 5px 10px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 3px; font-size: 14px; }
+.action-link:hover { background-color: #27ae60; }
+
+.action-form { display: inline; }
+.btn-small { padding: 5px 10px; font-size: 12px; border: none; cursor: pointer; border-radius: 3px; margin-bottom: 0; }
+.btn-edit { background-color: #f1c40f; color: white; text-decoration: none; margin-right: 5px; }
+.btn-edit:hover { background-color: #f39c12; }
+.btn-complete { background-color: #2ecc71; color: white; }
+.btn-complete:hover { background-color: #27ae60; }
+
+/* Forms */
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: bold; }
+input[type="text"], input[type="number"], input[type="datetime-local"], textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+input[type="checkbox"] { width: auto; }
+
+/* Links */
+.back-link { display: inline-block; margin-top: 15px; color: #3498db; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+
+/* Modal styles */
+.modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+.modal-content { background-color: #fff; margin: 5% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 900px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+.close:hover, .close:focus { color: #333; text-decoration: none; }

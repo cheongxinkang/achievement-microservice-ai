@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Select a Template</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; color: #333; }
-        h1 { color: #2c3e50; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn { display: inline-block; padding: 10px 15px; margin-bottom: 20px; color: white; background-color: #3498db; text-decoration: none; border-radius: 4px; }
-        .btn:hover { background-color: #2980b9; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f2f2f2; }
-        .action-link { display: inline-block; padding: 5px 10px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 3px; font-size: 14px; }
-        .action-link:hover { background-color: #27ae60; }
-        .back-link { display: inline-block; margin-top: 15px; color: #3498db; text-decoration: none; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
 <div class="container">
     <h1>Available Templates</h1>
     <p>Select a template to create a new achievement.</p>
     
-    <!-- Link to the template service to create a new template -->
-    <a href="http://localhost:8081" class="btn" target="_blank">Create New Template in Template Service</a>
+    <!-- Button to open the modal -->
+    <button id="openModalBtn" class="btn" style="border: none; cursor: pointer; font-size: 16px;">Create New Template</button>
 
+    <!-- The Modal -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="margin-top: 0;">Create New Template</h2>
+            <iframe src="http://localhost:8081" width="100%" height="600px" style="border:none; border-radius: 4px;"></iframe>
+        </div>
+    </div>
     <table>
         <thead>
         <tr>
@@ -49,5 +45,28 @@
     
     <a th:href="@{/}" class="back-link">&larr; Back to List</a>
 </div>
+
+<script>
+    var modal = document.getElementById("templateModal");
+    var btn = document.getElementById("openModalBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>
