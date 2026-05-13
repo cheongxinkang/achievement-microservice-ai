@@ -9,6 +9,7 @@ import jakarta.persistence.ElementCollection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Achievement {
@@ -27,6 +28,8 @@ public class Achievement {
     private LocalDate deadline;
 
     private boolean completed = false;
+
+    private UUID userId;
 
     public Achievement() {
     }
@@ -85,5 +88,13 @@ public class Achievement {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

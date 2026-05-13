@@ -6,7 +6,9 @@ import com.xk.achievement.model.Achievement;
 import com.xk.achievement.service.AchievementService;
 import com.xk.achievement.service.TemplateServiceClient;
 import com.xk.achievement.util.AchievementMapper;
+import com.xk.achievement.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +35,9 @@ public class AchievementController {
     }
 
     @GetMapping
-    public String listAchievements(Model model) {
-        List<AchievementDTO> dtos = service.findAll().stream()
+    public String listAchievements(@AuthenticationPrincipal UserDTO user, Model model) {
+        UUID userId = UUID.fromString(user.id());
+        List<AchievementDTO> dtos = service.findAllByUserId(userId).stream()
                 .map(AchievementMapper::toDTO)
                 .collect(Collectors.toList());
         model.addAttribute("achievements", dtos);
@@ -61,8 +64,9 @@ public class AchievementController {
     }
 
     @PostMapping("/save")
-    public String saveAchievement(@RequestParam Map<String, String> formData) {
+    public String saveAchievement(@AuthenticationPrincipal UserDTO user, @RequestParam Map<String, String> formData) {
         Achievement achievement = new Achievement();
+        achievement.setUserId(UUID.fromString(user.id()));
         
         String templateName = formData.getOrDefault("_templateName", "Generated Achievement");
         String actualName = null;
@@ -110,9 +114,9 @@ public class AchievementController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEditForm(@AuthenticationPrincipal UserDTO user, @PathVariable Long id, Model model) {
         Optional<Achievement> achievementOpt = service.findById(id);
-        if (achievementOpt.isPresent()) {
+        if (achievementOpt.isPresent() && achievementOpt.get().getUserId().equals(UUID.fromString(user.id()))) {
             Achievement a = achievementOpt.get();
             AchievementDTO dto = AchievementMapper.toDTO(a);
             
@@ -125,9 +129,9 @@ public class AchievementController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateAchievement(@PathVariable Long id, @ModelAttribute AchievementDTO achievementDetails, @RequestParam(value = "criteriaString", required = false) String criteriaString) {
+    public String updateAchievement(@AuthenticationPrincipal UserDTO user, @PathVariable Long id, @ModelAttribute AchievementDTO achievementDetails, @RequestParam(value = "criteriaString", required = false) String criteriaString) {
         Optional<Achievement> optional = service.findById(id);
-        if (optional.isPresent()) {
+        if (optional.isPresent() && optional.get().getUserId().equals(UUID.fromString(user.id()))) {
             Achievement achievement = optional.get();
             achievement.setAchievementName(achievementDetails.getAchievementName());
             achievement.setDescription(achievementDetails.getDescription());
@@ -150,8 +154,11 @@ public class AchievementController {
     }
 
     @PostMapping("/complete/{id}")
-    public String completeAchievement(@PathVariable Long id) {
-        service.complete(id);
+    public String completeAchievement(@AuthenticationPrincipal UserDTO user, @PathVariable Long id) {
+        Optional<Achievement> optional = service.findById(id);
+        if (optional.isPresent() && optional.get().getUserId().equals(UUID.fromString(user.id()))) {
+            service.complete(id);
+        }
         return "redirect:/";
     }
 }

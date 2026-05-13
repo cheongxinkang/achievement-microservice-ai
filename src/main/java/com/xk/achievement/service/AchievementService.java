@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AchievementService {
@@ -18,8 +19,8 @@ public class AchievementService {
         this.repository = repository;
     }
 
-    public List<Achievement> findAll() {
-        return repository.findAll();
+    public List<Achievement> findAllByUserId(UUID userId) {
+        return repository.findByUserId(userId);
     }
 
     public Achievement save(Achievement achievement) {

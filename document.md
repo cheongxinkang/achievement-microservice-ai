@@ -84,3 +84,59 @@ Future features to implement.
 - Proper saving so it doesn't wipe out the database every time
 - Integrate user service and authentication
 - Cloud hosting with API gateway
+
+--- Start of 45min session ---
+I made it refactor the achievements so it isn't a table:
+"Refactor the achievements. Instead of a table, achievements should become a list of buttons but it should not look like a button, it should look like a game's achievement. You can click on it, it will pop a modal with the achievement's details. Try to make all this look aesthetically pleasing."
+
+Encountered bug
+"The modal pop up is off-center"
+
+Still not fixed
+"Screenshot sent"
+
+"I want to integrate a user service and authentication. Here's the local path: C:\Users\rtemi\IdeaProjects\user-microservice-as
+
+Our achievements should be tied to a user."
+
+I ended up using all my usage? Seems like I somehow ended up using a lot.... Maybe cause it needs to analyze a lot of data?
+
+I switched to the Gemini 3 Flash model instead. And repeated my above command
+
+Status: Completed running
+
+I reviewed some of the files, not sure why it implements the RSA decryption again here.
+--- End of 45min Session ---
+
+--- Start of 50min Session ---
+Starting the various services to see if they work together
+
+Bug running
+"***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+???????
+|  jwtSessionFilter defined in file [C:\Users\rtemi\Documents\Github\achievement-microservice-ai\achievement-microservice-ai\build\classes\java\main\com\xk\achievement\configuration\JwtSessionFilter.class]
+?     ?
+|  securityConfig defined in file [C:\Users\rtemi\Documents\Github\achievement-microservice-ai\achievement-microservice-ai\build\classes\java\main\com\xk\achievement\configuration\SecurityConfig.class]
+???????"
+"
+
+I made it push the authentication to only happen in User Service
+
+--- Pause at 20mins to go out to gym ---
+--- Resume ---
+Have to read each file that was editted.
+
+The password field was misconfigured. But otherwise, I needed a sign up too
+
+After sign up, nothing happens after login.
+Been trying to debug it for awhile...
+
+Finally working. Debugged to find it in User Service
+--- End of 45min session---
